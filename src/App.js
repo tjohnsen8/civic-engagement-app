@@ -407,10 +407,10 @@ ${address || '[Your City, State]'}`;
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50">
       <div className="max-w-4xl mx-auto p-4 sm:p-6 pb-20">
         <div className="text-center mb-10 sm:mb-12 pt-6 sm:pt-8">
-          <h1 className="text-3xl sm:text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-3 sm:mb-4">
-            Make Your Voice Heard
+          <h1 className="text-4xl sm:text-6xl font-black bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-3 sm:mb-4 tracking-tight">
+            Pressure
           </h1>
-          <p className="text-gray-600 text-lg">Connect with your representatives in seconds</p>
+          <p className="text-gray-600 text-lg font-semibold tracking-wide">Contact. Copy. Call. Repeat.</p>
         </div>
 
         {error && (
@@ -883,7 +883,15 @@ ${address || '[Your City, State]'}`;
                 </div>
               </div>
 
-              <label className="block text-sm font-semibold text-gray-700 mb-2">Message</label>
+              <div className="flex items-center justify-between mb-2">
+                <label className="block text-sm font-semibold text-gray-700">Message</label>
+                <button
+                  onClick={() => navigator.clipboard?.writeText(customMessage)}
+                  className="text-sm font-semibold text-purple-600 hover:text-purple-800"
+                >
+                  Copy message
+                </button>
+              </div>
               <textarea
                 value={customMessage}
                 onChange={(e) => setCustomMessage(e.target.value)}
@@ -974,6 +982,21 @@ ${address || '[Your City, State]'}`;
                     No phone listed
                   </div>
                 )}
+              </div>
+
+              <div className="mt-4 bg-gray-50 rounded-2xl p-4">
+                <div className="flex items-center justify-between mb-2">
+                  <div className="text-sm font-semibold text-gray-700">Your message</div>
+                  <button
+                    onClick={() => navigator.clipboard?.writeText(customMessage)}
+                    className="text-sm font-semibold text-purple-600 hover:text-purple-800"
+                  >
+                    Copy message
+                  </button>
+                </div>
+                <div className="text-sm text-gray-700 whitespace-pre-line max-h-48 overflow-y-auto">
+                  {customMessage}
+                </div>
               </div>
 
               <button
@@ -1100,6 +1123,39 @@ ${address || '[Your City, State]'}`;
                 <Shield className="w-4 h-4" />
                 <span>Want this to grow? Share the link. (Mobile-first is the point.)</span>
               </div>
+            </div>
+          </div>
+        )}
+
+        {step === 'success' && (
+          <div className="space-y-6">
+            <div className="bg-white rounded-3xl shadow-2xl p-8 sm:p-10 text-center">
+              <div className="text-5xl sm:text-6xl mb-6">&#x1F4A5;</div>
+              <h2 className="text-3xl sm:text-4xl font-black text-gray-900 mb-2">Pressure applied.</h2>
+              <p className="text-xl text-gray-700 font-semibold mb-1">Message ready.</p>
+              <p className="text-lg text-gray-500">Next rep. Same energy.</p>
+
+              <button
+                onClick={() => {
+                  setSelectedRep(null);
+                  setSelectedIssue(null);
+                  setCustomMessage('');
+                  setActionType(null);
+                  setEmailMethod(null);
+                  setError('');
+                  setStep(representatives.length > 0 ? 'selectRep' : 'lookup');
+                }}
+                className="mt-8 w-full px-6 py-4 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-2xl font-bold text-lg hover:shadow-lg transform hover:scale-105 transition-all duration-200"
+              >
+                Pressure someone else
+              </button>
+
+              <button
+                onClick={beginOver}
+                className="mt-3 w-full px-6 py-4 bg-white text-gray-700 border-2 border-gray-200 rounded-2xl font-semibold hover:shadow transition"
+              >
+                Start over
+              </button>
             </div>
           </div>
         )}
@@ -1299,17 +1355,21 @@ ${address || '[Your City, State]'}`;
                 <p><span className="font-semibold">We don’t track</span> which issues you click, which reps you contact, or whether you sent a message.</p>
                 <p><span className="font-semibold">We do use</span> your ZIP/address to look up your reps and show relevant state bills.</p>
                 <p><span className="font-semibold">If/when</span> “send from this site” is enabled, we’ll use a captcha and only store what’s needed to send the message.</p>
-                <p className="text-xs text-gray-500">(You’ll likely want to tighten this up once you add analytics or a backend.)</p>
+                <p className="text-xs text-gray-500">(You'll likely want to tighten this up once you add analytics or a backend.)</p>
+                <p className="font-semibold text-gray-400 italic pt-2">Because silence is consent.</p>
               </div>
             </div>
           </div>
         )}
 
         {/* Footer */}
-        <div className="mt-10 text-center text-xs text-gray-500">
-          <button onClick={() => setPrivacyOpen(true)} className="underline">Privacy</button>
-          <span className="mx-2">•</span>
-          <a href="#admin" className="underline">Admin</a>
+        <div className="mt-10 text-center text-xs text-gray-500 space-y-2">
+          <p className="font-semibold text-gray-400 italic">Because silence is consent.</p>
+          <div>
+            <button onClick={() => setPrivacyOpen(true)} className="underline">Privacy</button>
+            <span className="mx-2">&bull;</span>
+            <a href="#admin" className="underline">Admin</a>
+          </div>
         </div>
       </div>
     </div>
