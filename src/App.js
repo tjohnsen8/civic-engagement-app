@@ -401,32 +401,6 @@ ${address || '[Your City, State]'}`;
     window.location.href = mailto;
   };
 
-  const handleFederalBillsSearch = async (q) => {
-    const query = (q || "").trim();
-    if (!query) return;
-
-    setBillsLoading(true);
-    setError("");
-
-    try {
-      const res = await fetch(
-        `${API_BASE_URL}/api/bills/search?query=${encodeURIComponent(query)}&limit=20`
-      );
-      const data = await res.json();
-
-      if (!res.ok || !data?.success) {
-        throw new Error(data?.error || "Bill search failed");
-      }
-
-      // Store results in your existing federalBills state (or create a new state for search results)
-      setFederalBills(Array.isArray(data.bills) ? data.bills : []);
-    } catch (e) {
-      setError(e.message || "Bill search failed");
-    } finally {
-      setBillsLoading(false);
-    }
-  };
-
 
 
   return (
